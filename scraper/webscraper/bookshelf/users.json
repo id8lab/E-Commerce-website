@@ -1,0 +1,12 @@
+{ 
+    "_id" : "michael", 
+    "email" : "mm@lesmotet.com", 
+    "password" : "pbkdf2:sha256:50000$IBQ9DXQ7$c85bded8b9fe31735f23873870570ae1edc54e0a71a753d36ca6c95d940c21bd"
+}
+{ 
+    "_id" : "motethansen", 
+    "password" : "pbkdf2:sha256:50000$Uu6WW9dv$dd9f88acdb420c8da2380cdfdad8e7440c846c821001a19329ed1f31c1660db3", 
+    "name" : "Michael", 
+    "surname" : "Hansen", 
+    "email" : "motethansen@gmail.com"
+}
