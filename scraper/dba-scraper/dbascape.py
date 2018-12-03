@@ -6,10 +6,10 @@ import csv
 import os
 import io
 
-#import random
-#import datetime
+import random
+import datetime
 # import for mongodb
-#import pymongo
+import pymongo
 
 encoding = 'utf8'
 
@@ -39,9 +39,9 @@ class dba_scraper:
         self.csvfilename = output_csvfilename
         self.entries = [] # list of entries per row
         # Connect to server
-        #self.mongoclient = pymongo.MongoClient('localhost', 27017)
+        self.mongoclient = pymongo.MongoClient('localhost', 27017)
         # Select the database
-        #self.importdb = self.mongoclient.bookshelf
+        self.dbaimportdb = self.mongoclient.dbabase
 
     def page_url(self, url_link):
         self.my_url = url_link
@@ -92,6 +92,7 @@ class dba_scraper:
             tds = container.findAll("td")
             product.price = tds[len(tds)-1].text
 
+
             product.print_product()   
             self.entries.append(product.imageURL)
             self.entries.append(product.title)
@@ -102,8 +103,18 @@ class dba_scraper:
             self.product_entries.append(self.entries)
             self.entries = []
 
+            # fill the database
+            self.productdata = dict(title=product.title,
+                                description=product.description,
+                                price=product.price,
+                                adURL=product.adURL,
+                                category=product.category,
+                                image=product.imageURL)
+
+            self.dbaimportdb.productimports.insert(self.productdata)
+
 dbascrape = dba_scraper("productlist.csv")
-dbascrape.set_numof_pages(31) #31
+dbascrape.set_numof_pages(37) #31
 for page_count in range (1,dbascrape.numofpages):
     url_sting = "https://www.dba.dk/brugerens-annoncer/brugerid-5683282/side-" + str(page_count)
     print (url_sting)
@@ -111,3 +122,4 @@ for page_count in range (1,dbascrape.numofpages):
     dbascrape.scrape_page()
 
 dbascrape.write_cvs()
+dbascrape.mongoclient.close()
