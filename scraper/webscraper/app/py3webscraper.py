@@ -204,4 +204,3 @@ for page_count in range (1,bookscrape.numofpages):
 
 bookscrape.write_cvs()
 bookscrape.mongoclient.close()
-# my_url = 'https://www.zalora.sg/women/accessories/sunglasses/'
